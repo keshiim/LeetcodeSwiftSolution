@@ -25,6 +25,13 @@ print("array.islandPerimeter: \(array.islandPerimeter([[0,1,0,0],[1,1,1,0],[0,1,
 
 print("array.majorityElement: \(array.majorityElement([-2147483648]))")
 
+print("array.threeSum: \(array.threeSum([-1,0,1,2,-1,-4]))")
+
+nums = [2, 1]
+print("\(array.moveZeroes(&nums)) print:\(nums)")
+nums = [1]
+print("\(array.removeElement(&nums, 1)) print: \(nums)")
+
 //////////////////// Search /////////////////////////
 let search = SearchSolution()
 print("search.search index: \(search.search([4,5,6,7,0,1,2,3], 6))")
