@@ -325,8 +325,8 @@ class ArraySolution {
         }
         return []
     }
-//MARK: 题目16：3Sum 三数之和
-    /// 思路：先排序，在遍历数组，然后假使第一个数字是负数，target = 0-第一个数字，转换求Tow Sum问题
+//MARK: 题目16：3Sum 三数之和等于零 [Medium]
+    /// 思路：先排序，在遍历数组，然后假使第一个数字是负数，target = 0 - 第一个数字，转换求Tow Sum问题
     func threeSum(_ nums: [Int]) -> [[Int]] {
         var res = [[Int]]()
         //sort
@@ -353,6 +353,83 @@ class ArraySolution {
                     j -= 1
                 }
             }
+        }
+        return res
+    }
+//MARK: 题目17：3Sum Closest 最近三数之和接近指定值 [Medium]
+    /// 思路：先排序，在遍历数组，然后left 和 right滑动寻找另连个数字，然后min(diff, newDiff)，更新diff和结果
+    func threeSumClosest(_ nums: [Int], _ target: Int) -> Int {
+        var res = nums[0] + nums[1] + nums[2], diff = abs(res - target)
+        let nums = nums.sorted()
+        for i in 0..<nums.count {
+            var left = i + 1, right = nums.count - 1
+            while left < right {
+                let sum = nums[i] + nums[left] + nums[right]
+                let newDiff = abs(sum - target)
+                if newDiff < diff {
+                    diff = newDiff
+                    res = sum
+                }
+                if sum < target {
+                    left += 1
+                } else {
+                    right -= 1
+                }
+            }
+        }
+        return res
+    }
+//MARK: 题目18：4Sum 四数之和等于指定值 [Medium]
+    /// 思路：与3Sum类似，不同的是外侧还需要嵌套一层循环
+    func fourSum(_ nums: [Int], _ target: Int) -> [[Int]] {
+        var res = [[Int]]()
+        let nums = nums.sorted()
+        guard nums.count >= 4 else {
+            return res
+        }
+        for i in 0..<nums.count - 3 {
+            for j in (i + 1)..<nums.count - 2 {
+                var left = j + 1, right = nums.count - 1
+                while left < right {
+                    let sum = nums[i] + nums[j] + nums[left] + nums[right]
+                    if sum == target {
+                        let cur = [nums[i], nums[j], nums[left], nums[right]]
+                        if (!res.contains(where: { (item) -> Bool in
+                            let b1 = item[0] == cur[0]
+                            let b2 = item[1] == cur[1]
+                            let b3 = item[2] == cur[2]
+                            let b4 = item[3] == cur[3]
+                            return b1 && b2 && b3 && b4
+                        })) {
+                            res.append(cur)
+                        }
+                        left += 1
+                        right -= 1
+                    } else if sum < target {
+                        left += 1
+                    } else {
+                        right -= 1
+                    }
+                }
+            }
+        }
+        return res
+    }
+    
+//MARK: 题目19：Summary Ranges 总结区间 [Medium]
+    /// 思路：具体来说就是让我们找出连续的序列，然后首尾两个数字之间用个“->"来连接。
+    ///      那么我只需遍历一遍数组即可，每次检查下一个数是不是递增的，如果是，则继续往下遍历，如果不是了，
+    ///      我们还要判断此时是一个数还是一个序列，一个数直接存入结果，序列的话要存入首尾数字和箭头“->"。
+    ///      我们需要两个变量i和j，其中i是连续序列起始数字的位置，j是连续数列的长度，当j为1时，说明只有一个数字，若大于1，则是一个连续序列
+    func summaryRanges(_ nums: [Int]) -> [String] {
+        //eg: [0, 1, 3, 4, 5,7, 8]
+        var res = [String]()
+        var i = 0, j = 0, n = nums.count
+        while i < n {
+            j = 1
+            while i + j < n && nums[i + j] - nums[i] == j { j += 1 }
+            j > 1 ? res.append("\(nums[i])->\(nums[i + j - 1])") : res.append("\(nums[i])")
+            i += j
         }
         return res
     }
