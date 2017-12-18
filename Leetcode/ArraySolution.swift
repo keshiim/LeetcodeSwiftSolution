@@ -433,5 +433,41 @@ class ArraySolution {
         }
         return res
     }
+//MARK: 题目20：Shortest Word Distance 最短单词距离 [Easy]
+    /// 思路：我们用两个变量p1,p2初始化为-1，然后我们遍历数组，遇到单词1，就将其位置存在p1里，
+    /// 若遇到单词2，就将其位置存在p2里，如果此时p1, p2都不为-1了，那么我们更新结果
+    func shortestDistance(_ words: [String], word1: String, word2: String) -> Int {
+        var p1 = -1, p2 = -1, res = Int.max
+        for (i, word) in words.enumerated() {
+            if word == word1 { p1 = i }
+            if word == word2 { p2 = i }
+            if p1 != -1 && p2 != -1 {
+                res = min(res, abs(p1 - p2))
+            }
+        }
+        return res  
+    }
+///MARK: 题目21：Shortest Word Distance III 最短单词距离之三 [Medium]
+    /// 描述：和上道题【Shortest Word Distance】不同在于输入的word1和word2可以重复
+    /// 思路：如果w1和w2相同，用t来记录p1上次的值(t - p1)，不同走原来逻辑(p1 - p2)
+    func shortestDistanceIII(_ words: [String], word1: String, word2: String) -> Int {
+        var p1 = -1, p2 = -1, res = Int.max
+        var t = 0
+        for (i, word) in words.enumerated() {
+            t = p1
+            if word == word1 { p1 = i }
+            if word == word2 { p2 = i }
+            if p1 != -1 && p2 != -1 {
+                if word1 == word2 {
+                    if t != -1 && p1 != t {
+                        res = min(res, abs(t - p1))
+                    }
+                } else {
+                    res = min(res, abs(p1 - p2))
+                }
+            }
+        }
+        return res
+    }
 }
 

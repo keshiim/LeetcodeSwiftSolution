@@ -36,6 +36,10 @@ print("array.fourSum: \(array.fourSum([-3,-2,-1,0,0,1,2,3], 0))")
 
 print("array.summaryRanges: \(array.summaryRanges([0, 1, 3, 4, 6, 8, 9]))")
 
+print("array.shortestDistance = \(array.shortestDistance(["practice", "makes", "perfect", "coding", "makes"], word1: "practice", word2: "coding"))")
+
+print("array.shortestDistanceIII = \(array.shortestDistanceIII(["practice", "makes", "perfect", "coding", "makes"], word1: "makes", word2: "makes"))")
+
 //////////////////// Search /////////////////////////
 let search = SearchSolution()
 print("search.search index: \(search.search([4,5,6,7,0,1,2,3], 6))")
