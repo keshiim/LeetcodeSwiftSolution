@@ -487,8 +487,9 @@ class ArraySolution {
             else if let fIndex = m[sum - k] {
                 res = max(res, i - fIndex) //寻找区间
             }
-            if m[sum] == nil {
+            guard m[sum] != nil else {
                 m[sum] = i //记录累加和sum的第一次出现的index
+                continue
             }
         }
         return res
