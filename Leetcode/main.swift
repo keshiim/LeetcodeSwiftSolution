@@ -40,6 +40,8 @@ print("array.shortestDistance = \(array.shortestDistance(["practice", "makes", "
 
 print("array.shortestDistanceIII = \(array.shortestDistanceIII(["practice", "makes", "perfect", "coding", "makes"], word1: "makes", word2: "makes"))")
 
+print("array.maxSubArrayLen = \(array.maxSubArrayLen([1, -1, 5, -2, 3], k: 2))")
+
 //////////////////// Search /////////////////////////
 let search = SearchSolution()
 print("search.search index: \(search.search([4,5,6,7,0,1,2,3], 6))")

@@ -448,8 +448,8 @@ class ArraySolution {
         return res  
     }
 ///MARK: 题目21：Shortest Word Distance III 最短单词距离之三 [Medium]
-    /// 描述：和上道题【Shortest Word Distance】不同在于输入的word1和word2可以重复
-    /// 思路：如果w1和w2相同，用t来记录p1上次的值(t - p1)，不同走原来逻辑(p1 - p2)
+     /// 描述：和上道题【Shortest Word Distance】不同在于输入的word1和word2可以重复
+     /// 思路：如果w1和w2相同，用t来记录p1上次的值(t - p1)，不同走原来逻辑(p1 - p2)
     func shortestDistanceIII(_ words: [String], word1: String, word2: String) -> Int {
         var p1 = -1, p2 = -1, res = Int.max
         var t = 0
@@ -465,6 +465,30 @@ class ArraySolution {
                 } else {
                     res = min(res, abs(p1 - p2))
                 }
+            }
+        }
+        return res
+    }
+///MARK: 题目22：Maximum Size Subarray Sum Equals k 最大子数组之和为k
+     /// 思路：1. X + k = Sum (区间)
+     ///      2. 0 + k = Sum (非区间)
+    /// eg: nums: [1, -1, 5, -2, 3], k = 3
+    ///     sums: [1,  0, 5,  3, 6] 非区间，res = i + 1, 3 + 1 = 4
+    /////////////////
+    ////    nums: [-2, -1,  2, 1], k = 1
+    ///     sums: [-2, -3, -1, 0] 区间 sum - k = X (-1 - 1) = -2, res = i - (-2的index) = 2 - 0 = 2
+    /// 参考链接：http://www.cnblogs.com/grandyang/p/5336668.html
+    func maxSubArrayLen(_ nums: [Int], k: Int) -> Int {
+        var sum = 0, res = 0
+        var m = [Int: Int]()
+        for i in 0..<nums.count {
+            sum += nums[i] //变量sum累加
+            if sum == k { res = i + 1 } //非区间
+            else if let fIndex = m[sum - k] {
+                res = max(res, i - fIndex) //寻找区间
+            }
+            if m[sum] == nil {
+                m[sum] = i //记录累加和sum的第一次出现的index
             }
         }
         return res
