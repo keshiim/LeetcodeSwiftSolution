@@ -447,7 +447,7 @@ class ArraySolution {
         }
         return res  
     }
-///MARK: 题目21：Shortest Word Distance III 最短单词距离之三 [Medium]
+//MARK: 题目21：Shortest Word Distance III 最短单词距离之三 [Medium]
      /// 描述：和上道题【Shortest Word Distance】不同在于输入的word1和word2可以重复
      /// 思路：如果w1和w2相同，用t来记录p1上次的值(t - p1)，不同走原来逻辑(p1 - p2)
     func shortestDistanceIII(_ words: [String], word1: String, word2: String) -> Int {
@@ -469,13 +469,13 @@ class ArraySolution {
         }
         return res
     }
-///MARK: 题目22：Maximum Size Subarray Sum Equals k 最大子数组之和为k
-     /// 思路：1. X + k = Sum (区间)
-     ///      2. 0 + k = Sum (非区间)
+//MARK: 题目22：Maximum Size Subarray Sum Equals k 最大子数组之和为k [Easy]
+    /// 思路：1. X + k = Sum (区间)
+    ///      2. 0 + k = Sum (非区间)
     /// eg: nums: [1, -1, 5, -2, 3], k = 3
     ///     sums: [1,  0, 5,  3, 6] 非区间，res = i + 1, 3 + 1 = 4
     /////////////////
-    ////    nums: [-2, -1,  2, 1], k = 1
+    ///     nums: [-2, -1,  2, 1], k = 1
     ///     sums: [-2, -3, -1, 0] 区间 sum - k = X (-1 - 1) = -2, res = i - (-2的index) = 2 - 0 = 2
     /// 参考链接：http://www.cnblogs.com/grandyang/p/5336668.html
     func maxSubArrayLen(_ nums: [Int], k: Int) -> Int {
@@ -494,5 +494,157 @@ class ArraySolution {
         }
         return res
     }
+    
+//MARK: 题目22：Product of Array Except Self 除自身所有元素的乘积 [Medium]
+    /// 思路：对于某一个数字，如果我们知道其前面所有数字的乘积，同时也知道后面所有的数乘积，
+    ///      那么二者相乘就是我们要的结果，所以我们只要分别创建出这两个数组即可，分别从数组的两个方向遍历就可以分别创建出乘积累积数组.
+    ///      对上面的方法进行空间上的优化，由于最终的结果都是要乘到结果res中，所以我们可以不用单独的数组来保存乘积，而是直接累积到res中，
+    ///      我们先从前面遍历一遍，将乘积的累积存入res中，然后从后面开始遍历，用到一个临时变量right，初始化为1，然后每次不断累积，最终得到正确结果
+    //   1   2   3   4
+    //L: 1   1   2   6  *
+    //R: 24  12  4   1  *
+    //F: 24  12  8   6
+    func productExceptSelf(_ nums: [Int]) -> [Int] {
+        var res = [Int](repeating: 1, count: nums.count)
+        for i in 1..<nums.count {
+            res[i] = res[i - 1] * nums[i - 1]
+        }
+        var right = 1, j = nums.count - 1
+        while j >= 0 {
+            res[j] *= right
+            right *= nums[j]
+            j -= 1
+        }
+        return res
+    }
+//MARK: 题目23：Rotate Array 旋转数组 [Easy]
+    /// 思路：1. 我们先来看一种O(n)的空间复杂度的方法，我们复制一个和nums一样的数组，然后利用映射关系i -> (i+k)%n来交换数字
+    /// 思路：2. 使用类似翻转字符的方法，思路是先把整个数组翻转一下，再把前k个数字翻转一下，最后再把后n-k个数字翻转一下
+    /// 思路：3. 这种方法其实还蛮独特的，通过不停的交换某两个数字的位置来实现旋转
+    ///          1 2 3 4 5 6 7
+    ///          5 2 3 4 1 6 7
+    ///          5 6 3 4 1 2 7
+    ///          5 6 7 4 1 2 3
+    ///          5 6 7 1 4 2 3
+    ///          5 6 7 1 2 4 3
+    ///          5 6 7 1 2 3 4
+    func rotate(_ nums: inout [Int], _ k: Int) {
+        /// 帮助方法
+        func _reverse(_ nums: inout [Int], startIdx: Int, endIdx: Int) {
+            //边界情况
+            guard startIdx >= 0, endIdx < nums.count, startIdx < endIdx else {
+                return
+            }
+            var startIdx = startIdx
+            var endIdx = endIdx
+            while startIdx < endIdx {
+                _swap(&nums, startIdx, endIdx)
+                startIdx += 1
+                endIdx -= 1
+            }
+        }
+        func _swap<T>(_ nums: inout Array<T>, _ p: Int, _ q: Int) {
+            (nums[p], nums[q]) = (nums[q], nums[p])
+        }
+        
+        //方法1
+        func rotateI(_ nums: inout [Int], _ k: Int) {
+            let t = nums
+            for i in 0 ..< nums.count {
+                nums[(i + k) % nums.count] = t[i]
+            }
+        }
+        
+        //方法2
+        func rotateII(_ nums: inout [Int], _ k: Int) {
+            let k = k % nums.count
+            _reverse(&nums, startIdx: 0, endIdx: nums.count - 1)
+            _reverse(&nums, startIdx: 0, endIdx: k - 1)
+            _reverse(&nums, startIdx: k, endIdx: nums.count - 1)
+        }
+        
+        //方法3
+        func rotateIII(_ nums: inout [Int], _ k: Int) {
+            guard !nums.isEmpty else {
+                return
+            }
+            var start = 0, n = nums.count
+            var k = k % n
+            while n != 0 && k != 0 {
+                for i in 0 ..< k {
+                    nums.swapAt(i + start, n - k + (i + start))
+                }
+                n -= k
+                start += k
+                k %= n
+            }
+        }
+        
+        //rotateI(&nums, k)
+        rotateII(&nums, k)
+        //rotateIII(&nums, k)
+    }
+//MARK: 题目24：Rotate Image 旋转图像 [Medium]
+    /// 思路：从外侧 到 内存，一圈一圈的选择
+    /// 1  2  3    7  2  1    7  4  1  先是 1 3 7 9 相互替换
+    /// 4  5  6 -> 4  5  6 -> 8  5  2  再是 2 6 8 4 相互替换
+    /// 7  8  9    9  8  3    9  6  3  下一圈只有一个数字5 不用动了
+    func rotate(_ matrix: inout [[Int]]) {
+        let n = matrix.count
+        for layer in 0..<n / 2 {
+            let start = layer, end = n - layer - 1
+            for i in start..<end {
+                let offset = i - start
+                (matrix[start][i], matrix[i][end], matrix[end][end - offset], matrix[end - offset][start]) = (matrix[end - offset][start], matrix[start][i], matrix[i][end], matrix[end][end - offset])
+            }
+        }
+    }
+//MARK: 题目25：Spiral Matrix 螺旋矩阵 [Medium]
+    /// 思路：这道题让我们将一个矩阵按照螺旋顺序打印出来，我们只能一条边一条边的打印，首先我们要从给定的mxn的矩阵中算出按螺旋顺序有几个环，
+    ///      注意最终间的环可以是一个数字，也可以是一行或者一列。环数的计算公式是 min(m, n) / 2，知道了环数，我们可以对每个环的边按顺序打印，
+    ///      比如对于题目中给的那个例子，个边生成的顺序是(用颜色标记了数字) Red -> Green -> Blue -> Yellow -> Black
+    ///       →
+    ///     1　2　3
+    ///   ↑ 4　5　6  ↓
+    ///     7　8　9
+    ///       ←
+    ///    我们定义h，w为当前环的高度和宽度，当h或者w为1时，表示最后一个环只有一行或者一列，可以跳出循环
+    func spiralOrder(_ matrix: [[Int]]) -> [Int] {
+        var res  = [Int]()
+        guard matrix.count != 0 else {
+            return res
+        }
+        var h = matrix.count, w = matrix[0].count //宽、高
+        let c = (min(h, w) + 1) / 2 //计算圈数
+        for i in 0..<c {
+            //top
+            for col in i..<i + w {
+                res.append(matrix[i][col])
+            }
+            //right
+            for row in i + 1..<i + h {
+                res.append(matrix[row][i + w - 1])
+            }
+            if h == 1 || w == 1 {
+                break
+            }
+            //bottom
+            var col = i + w - 2
+            while col >= i {
+                res.append(matrix[i + h - 1][col])
+                col -= 1
+            }
+            //left
+            var row = i + h - 2
+            while row > i {
+                res.append(matrix[row][i])
+                row -= 1
+            }
+            h -= 2
+            w -= 2
+        }
+        return res
+    }
+    //MARK: 题目26：Spiral Matrix II 螺旋矩阵之二-创建矩阵 [Medium]
 }
 

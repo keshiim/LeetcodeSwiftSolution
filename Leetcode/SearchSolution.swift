@@ -95,6 +95,7 @@ class SearchSolution {
                 return findKth(nums1, Array(nums2[j..<n]), index - j)
             }
         }
+        
         let m = nums1.count, n = nums2.count
         return (findKth(nums1, nums2, (m + n + 1) / 2) + findKth(nums1, nums2, (m + n + 2) / 2)) / 2
     }

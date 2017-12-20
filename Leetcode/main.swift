@@ -10,6 +10,7 @@ import Foundation
 
 print("Hello, World!")
 //////////////////// Array /////////////////////////
+print("//////////////////// Array /////////////////////////")
 let array = ArraySolution()
 var nums = [1, 2, 2, 3, 5, 5, 6]
 print("removeDuplicatsArray: cout = \(array.removeDuplicates(&nums)) and array:\(nums)")
@@ -42,7 +43,24 @@ print("array.shortestDistanceIII = \(array.shortestDistanceIII(["practice", "mak
 
 print("array.maxSubArrayLen = \(array.maxSubArrayLen([1, -1, 5, -2, 3], k: 2))")
 
+print("array.productExceptSelf = \(array.productExceptSelf([1, 2, 3, 4]))")
+
+nums = [1,2]
+print("array.rotate = \(array.rotate(&nums, 0)) nums=\(nums)")
+
+var matrix = [[1,2,3,4],
+              [5,6,7,8],
+              [9,10,11,12],
+              [13,14,15,16]]
+print("array.rotateImage = \(array.rotate(&matrix)) image = \(matrix)")
+
+matrix = [[1,2,3],
+          [4,5,6],
+          [7,8,9]]
+print("array.spiralOrder = \(array.spiralOrder(matrix))")
+
 //////////////////// Search /////////////////////////
+print("//////////////////// Search /////////////////////////")
 let search = SearchSolution()
 print("search.search index: \(search.search([4,5,6,7,0,1,2,3], 6))")
 
