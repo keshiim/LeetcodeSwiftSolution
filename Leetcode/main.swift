@@ -59,6 +59,8 @@ matrix = [[1,2,3],
           [7,8,9]]
 print("array.spiralOrder = \(array.spiralOrder(matrix))")
 
+print("array.generateMatrix = \(array.generateMatrix(3))")
+
 //////////////////// Search /////////////////////////
 print("//////////////////// Search /////////////////////////")
 let search = SearchSolution()

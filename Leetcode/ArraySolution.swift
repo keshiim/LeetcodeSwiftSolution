@@ -646,5 +646,40 @@ class ArraySolution {
         return res
     }
     //MARK: 题目26：Spiral Matrix II 螺旋矩阵之二-创建矩阵 [Medium]
+    func generateMatrix(_ n: Int) -> [[Int]] {
+        var res = [[Int]](repeating: [Int](repeating: 1, count: n), count: n)
+        var p = n, val = 1
+        for c in 0..<n / 2 { //遍历每一圈
+            //top
+            for col in c..<c + p {
+                res[c][col] = val
+                val += 1
+            }
+            //right
+            for row in c + 1..<c + p {
+                res[row][c + p - 1] = val
+                val += 1
+            }
+            //bottom
+            var col = c + p - 2
+            while col >= c {
+                res[c + p - 1][col] = val
+                val += 1
+                col -= 1
+            }
+            //left
+            var row = c + p - 2
+            while row > c {
+                res[row][c] = val
+                val += 1
+                row -= 1
+            }
+            p -= 2
+        }
+        if n % 2 != 0 { // 赋值，最内层有单独元素
+            res[n / 2][n / 2] = val
+        }
+        return res
+    }
 }
 
