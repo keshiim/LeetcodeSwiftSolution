@@ -645,7 +645,8 @@ class ArraySolution {
         }
         return res
     }
-    //MARK: 题目26：Spiral Matrix II 螺旋矩阵之二-创建矩阵 [Medium]
+//MARK: 题目26：Spiral Matrix II 螺旋矩阵之二-创建矩阵 [Medium]
+    /// 思路：同上
     func generateMatrix(_ n: Int) -> [[Int]] {
         var res = [[Int]](repeating: [Int](repeating: 1, count: n), count: n)
         var p = n, val = 1
@@ -680,6 +681,33 @@ class ArraySolution {
             res[n / 2][n / 2] = val
         }
         return res
+    }
+//MARK: 题目27：Valid Sudoku 验证数独 [Medium]
+    /// 思路：判断标准是看各行各列是否有重复数字，以及每个小的3x3的小方阵里面是否有重复数字，如果都无重复，
+    ///      则当前矩阵是数独矩阵，但不代表待数独矩阵有解，只是单纯的判断当前未填完的矩阵是否是数独矩阵。
+    ///      那么根据数独矩阵的定义，我们在遍历每个数字的时候，就看看包含当前位置的行和列以及3x3小方阵中是否已经出现该数字，
+    ///      那么我们需要三个标志矩阵，分别记录各行，各列，各小方阵是否出现某个数字，其中行和列标志下标很好对应，就是小方阵的下标需要稍稍转换一下
+    func isValidSudoku(_ board: [[Character]]) -> Bool {
+        if board.isEmpty || board[0].isEmpty { return false }
+        let n = board.count
+        var rowFlag = [[Bool]](repeating: [Bool](repeating: false, count: n), count: n)
+        var colFlag = [[Bool]](repeating: [Bool](repeating: false, count: n), count: n)
+        var cellFlag = [[Bool]](repeating: [Bool](repeating: false, count: n), count: n)
+        for i in 0..<n {
+            for j in 0..<n {
+                if var c = Int(String(board[i][j])) {
+                    c -= 1
+                    //3【每行总数】 * (i / 3【以3划分】)【行数】 + (j / 3)【列数】
+                    if rowFlag[i][c] || colFlag[c][j] || cellFlag[3 * (i / 3) + j / 3][c] {
+                        return false
+                    }
+                    rowFlag[i][c] = true
+                    colFlag[c][j] = true
+                    cellFlag[3 * (i / 3) + j / 3][c] = true
+                }
+            }
+        }
+        return true
     }
 }
 
