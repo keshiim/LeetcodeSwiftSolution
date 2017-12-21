@@ -55,11 +55,13 @@ var matrix = [[1,2,3,4],
 print("array.rotateImage = \(array.rotate(&matrix)) image = \(matrix)")
 
 matrix = [[1,2,3],
-          [4,5,6],
+          [4,0,6],
           [7,8,9]]
 print("array.spiralOrder = \(array.spiralOrder(matrix))")
 
 print("array.generateMatrix = \(array.generateMatrix(3))")
+
+print("array.setZeroes = \(array.setZeroes(&matrix)), \(matrix)")
 
 var board: [[Character]] = [["5", "3", ".", ".", "7", ".", ".", ".", ".", ],
                             ["6", ".", ".", "1", "9", "5", ".", ".", ".", ],

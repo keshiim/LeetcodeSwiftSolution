@@ -709,5 +709,55 @@ class ArraySolution {
         }
         return true
     }
+//MARK: 题目27：Set Matrix Zeroes 矩阵赋零 [Medium]
+    /// 思路： 空间复杂度为O(1)的方法：
+    ///       先扫描第一行第一列，如果有0，则将各自的flag设置为true
+    ///       然后扫描除去第一行第一列的整个数组，如果有0，则将对应的第一行和第一列的数字赋0
+    ///       再次遍历除去第一行第一列的整个数组，如果对应的第一行和第一列的数字有一个为0，则将当前值赋0
+    ///       最后根据第一行第一列的flag来更新第一行第一列
+    func setZeroes(_ matrix: inout [[Int]]) {
+        //处理边界
+        if matrix.isEmpty || matrix[0].isEmpty {
+            return
+        }
+        let r = matrix.count, c = matrix[0].count
+        var rowZero = false, colZero = false
+        for i in 0..<r {
+            if matrix[i][0] == 0 { colZero = true }
+        }
+        for i in 0..<c {
+            if matrix[0][i] == 0 { rowZero = true }
+        }
+        for i in 0..<r {
+            for j in 0..<c {
+                if matrix[i][j] == 0 {
+                    matrix[0][j] = 0
+                    matrix[i][0] = 0
+                }
+            }
+        }
+        for i in 0..<r {
+            for j in 0..<c {
+                if matrix[0][j] == 0 || matrix[i][0] == 0 {
+                    matrix[i][j] = 0
+                }
+            }
+        }
+        if rowZero {
+            for i in 0..<c {
+                matrix[0][i] = 0
+            }
+        }
+        if colZero {
+            for i in 0..<r {
+                matrix[i][0] = 0
+            }
+        }
+    }
+//MARK: 题目28：Next Permutation [Medium]
+    /// 思路：
+    func nextPermutation(_ nums: inout [Int]) {
+        
+    }
 }
 
