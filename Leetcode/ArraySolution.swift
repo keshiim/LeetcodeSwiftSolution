@@ -757,7 +757,44 @@ class ArraySolution {
 //MARK: 题目28：Next Permutation [Medium]
     /// 思路：
     func nextPermutation(_ nums: inout [Int]) {
+        /// 帮助方法
+        func _reverse(_ nums: inout [Int], startIdx: Int, endIdx: Int) {
+            //边界情况
+            guard startIdx >= 0, endIdx < nums.count, startIdx < endIdx else {
+                return
+            }
+            var startIdx = startIdx
+            var endIdx = endIdx
+            while startIdx < endIdx {
+                _swap(&nums, startIdx, endIdx)
+                startIdx += 1
+                endIdx -= 1
+            }
+        }
+        func _swap<T>(_ nums: inout Array<T>, _ p: Int, _ q: Int) {
+            (nums[p], nums[q]) = (nums[q], nums[p])
+        }
         
+        guard nums.count > 0 else {
+            return
+        }
+        var violate = -1
+        //find violate
+        for i in stride(from: nums.count - 1, to: 0, by: -1) {
+            if nums[i] > nums[i - 1] {
+                violate = i - 1
+                break
+            }
+        }
+        if violate != -1 {
+            for i in stride(from: nums.count - 1, to: violate, by: -1) {
+                if nums[i] > nums[violate] {
+                    _swap(&nums, i, violate)
+                    break;
+                }
+            }
+        }
+        _reverse(&nums, startIdx: violate + 1, endIdx: nums.count - 1)
     }
 }
 

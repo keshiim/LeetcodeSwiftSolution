@@ -74,6 +74,9 @@ var board: [[Character]] = [["5", "3", ".", ".", "7", ".", ".", ".", ".", ],
                             [".", ".", ".", ".", "8", ".", ".", "7", "9", ]]
 print("array.isValidSudoku= \(array.isValidSudoku(board))")
 
+nums = [1, 2, 7, 4, 3, 1]
+print("array.nextPermutation = \(array.nextPermutation(&nums)), \(nums)")
+
 //////////////////// Search /////////////////////////
 print("//////////////////// Search /////////////////////////")
 let search = SearchSolution()
