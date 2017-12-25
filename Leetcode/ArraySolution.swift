@@ -754,8 +754,20 @@ class ArraySolution {
             }
         }
     }
-//MARK: 题目28：Next Permutation [Medium]
-    /// 思路：
+//MARK: 题目28：Next Permutation 下一个排列 [Medium]
+    /// 思路：1　　2　　7　　4　　3　　1
+    ///      下一个排列为：
+    ///      1　　3　　1　　2　　4　　7
+    /// 那么是如何得到的呢，我们通过观察原数组可以发现，如果从末尾往前看，数字逐渐变大，到了2时才减小的，然后我们再从后往前找第一个比2大的数字，
+    /// 是3，那么我们交换2和3，再把此时3后面的所有数字转置一下即可，步骤如下：
+    /// 1　　2　　7　　4　　3　　1
+    ///     -
+    /// 1　　2　　7　　4　　3　　1
+    ///     -            -
+    /// 1　　3　　7　　4　　2　　1
+    ///     -            -
+    /// 1　　3　　1　　2　　4　　7
+    ///         -    -   -   -
     func nextPermutation(_ nums: inout [Int]) {
         /// 帮助方法
         func _reverse(_ nums: inout [Int], startIdx: Int, endIdx: Int) {
@@ -795,6 +807,26 @@ class ArraySolution {
             }
         }
         _reverse(&nums, startIdx: violate + 1, endIdx: nums.count - 1)
+    }
+    
+//MARK: 题目28：Gas Station 加油站问题 [Medium]
+    /// 原理: 我们首先要知道能走完整个环的前提是gas的总量要大于cost的总量，这样才会有起点的存在。假设开始设置起点start = 0,
+    ///      并从这里出发，如果当前的gas值大于cost值，就可以继续前进，此时到下一个站点，剩余的gas加上当前的gas再减去cost，看是否大于0，若大于0，则继续前进。
+    ///      当到达某一站点时，若这个值小于0了，则说明从起点到这个点中间的任何一个点都不能作为起点，则把起点设为下一个点，继续遍历。当遍历完整个环时，当前保存的起点即为所求.
+    func canCompleteCircuit(_ gas: [Int], _ cost: [Int]) -> Int {
+        var totoal = 0, sum = 0, start = 0
+        for i in 0..<gas.count {
+            totoal += gas[i] - cost[i]
+            sum += gas[i] - cost[i]
+            if sum < 0 {
+                start = i + 1
+                sum = 0
+            }
+        }
+        if totoal < 0 {
+            return -1
+        }
+        return start
     }
 }
 
