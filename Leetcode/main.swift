@@ -89,3 +89,17 @@ var nums2 = [1, 2, 3, 4, 5, 6]
 nums1 = [1, 3]
 nums2 = [2]
 print("search.findMedianSortedArrays: \(search.findMedianSortedArrays(nums1, nums2))")
+
+func Binary(_ a: inout [Int], _ n: Int) {
+    if n < 1 {
+        print(a)
+    } else {
+        a[n - 1] = 0
+        Binary(&a, n - 1)
+        a[n - 1] = 1
+        Binary(&a, n - 1)
+    }
+}
+var a = [0, 0, 0]
+Binary(&a, a.count)
+
